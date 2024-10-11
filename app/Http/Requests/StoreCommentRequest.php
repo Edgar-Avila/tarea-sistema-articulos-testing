@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Comment;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostRequest extends FormRequest
+class StoreCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('post'));
+        return $this->user()->can('create', Comment::class);
     }
 
     /**
@@ -22,8 +23,10 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|max:255',
-            'text' => 'string',
+            'text' => ['required', 'string'],
+            'post_id' => ['required', 'exists:posts,id'],
+            'comment_id' => ['nullable', 'exists:comments,id'],
         ];
     }
+
 }

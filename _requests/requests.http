@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8000
-@token = 10|aDhbtxml1pJGng08hnVwiX2DzKVmydQEqz7xjbgx03dcfa94
+@token = 1|E0mAXIDysrKOYV3B7bXFAX4eyudFsNZxcBTqOae161555fe1
 
 ### Register
 POST {{baseUrl}}/api/register
@@ -53,11 +53,62 @@ Authorization: Bearer {{token}}
 
 {
     "title": "Test Post",
-    "text": "This is a test post"
+    "text": "This is an updated test post"
 }
 
 ### Delete Post
 DELETE {{baseUrl}}/api/posts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Make Comment
+POST {{baseUrl}}/api/comments
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "post_id": 1,
+    "text": "This is a test comment"
+}
+
+### Reply to Comment
+POST {{baseUrl}}/api/comments
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "post_id": 1,
+    "comment_id": 1,
+    "text": "This is a test reply"
+}
+
+### View Comments
+GET {{baseUrl}}/api/comments
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### View Comment
+GET {{baseUrl}}/api/comments/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Update Comment
+PUT {{baseUrl}}/api/comments/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "text": "This is an updated test comment"
+}
+
+### Delete Comment
+DELETE {{baseUrl}}/api/comments/1
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
