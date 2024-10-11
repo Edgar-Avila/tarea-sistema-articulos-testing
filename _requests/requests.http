@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:8000
+
+### Register
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Test User",
+    "email": "test@example5.com",
+    "password": "asdfasdf"
+}
+
+### Login
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "test@example2.com",
+    "password": "asdfasdf"
+}
