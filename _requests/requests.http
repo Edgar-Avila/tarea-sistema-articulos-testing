@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8000
+@token = 10|aDhbtxml1pJGng08hnVwiX2DzKVmydQEqz7xjbgx03dcfa94
 
 ### Register
 POST {{baseUrl}}/api/register
@@ -7,7 +8,7 @@ Accept: application/json
 
 {
     "name": "Test User",
-    "email": "test@example5.com",
+    "email": "test@example.com",
     "password": "asdfasdf"
 }
 
@@ -17,6 +18,46 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "email": "test@example2.com",
+    "email": "test@example.com",
     "password": "asdfasdf"
 }
+
+### View Posts
+GET {{baseUrl}}/api/posts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### View Post
+GET {{baseUrl}}/api/posts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Create Post
+POST {{baseUrl}}/api/posts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "Test Post",
+    "text": "This is a test post"
+}
+
+### Update Post
+PUT {{baseUrl}}/api/posts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "Test Post",
+    "text": "This is a test post"
+}
+
+### Delete Post
+DELETE {{baseUrl}}/api/posts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}

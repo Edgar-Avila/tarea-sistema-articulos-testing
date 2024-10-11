@@ -14,7 +14,6 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
-        error_log(json_encode($data));
         $user = User::create($data);
         $token = $user->createToken($data['email'])->plainTextToken;
         return ['token' => $token];
