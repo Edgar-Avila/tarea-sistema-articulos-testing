@@ -125,5 +125,48 @@ class PostTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    public function test_guest_can_not_update_post(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $post = Post::factory()->for($user)->create();
+        $response = $this->putJson("/api/posts/{$post->id}", [
+            'title' => 'Updated title',
+            'text' => 'Updated text',
+        ]);
+
+        $response->assertStatus(401);
+    }
+
+    public function test_user_can_delete_post(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $post = Post::factory()->for($user)->create();
+        $response = $this->actingAs($user)->deleteJson("/api/posts/{$post->id}");
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('posts', [
+            'id' => $post->id,
+        ]);
+    }
+
+    public function test_user_can_not_delete_other_users_post(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $otherUser = User::factory()->create();
+        $post = Post::factory()->for($otherUser)->create();
+        $response = $this->actingAs($user)->deleteJson("/api/posts/{$post->id}");
+
+        $response->assertStatus(403);
+    }
+
+    public function test_guest_can_not_delete_post(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $post = Post::factory()->for($user)->create();
+        $response = $this->deleteJson("/api/posts/{$post->id}");
+
+        $response->assertStatus(401);
+    }
     
 }
