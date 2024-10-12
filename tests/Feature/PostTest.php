@@ -21,6 +21,24 @@ class PostTest extends TestCase
         $response->assertJsonCount(5);
     }
 
+    public function test_user_can_see_own_posts(): void
+    {
+        $user = User::factory()->testUser()->hasPosts(10)->create();
+        User::factory()->hasPosts(20)->create(); // Other user
+
+        $response = $this->actingAs($user)->getJson('/api/posts/my-posts');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(10);
+    }
+
+    public function test_guest_can_not_see_own_posts(): void
+    {
+        $response = $this->getJson('/api/posts/my-posts');
+
+        $response->assertStatus(401);
+    }
+
     public function test_guest_can_not_see_posts(): void
     {
         $response = $this->getJson('/api/posts');

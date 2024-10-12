@@ -18,6 +18,11 @@ class PostController extends Controller
         return Post::all();
     }
 
+    public function myPosts()
+    {
+        return request()->user()->posts;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

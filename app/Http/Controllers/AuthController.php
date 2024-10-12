@@ -43,4 +43,9 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return response()->json(['success' => true], 200);
     }
+
+    public function me(Request $request)
+    {
+        return $request->user();
+    }
 }

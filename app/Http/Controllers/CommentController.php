@@ -19,6 +19,16 @@ class CommentController extends Controller
         return Comment::all();
     }
 
+    public function myComments()
+    {
+        return request()->user()->comments;
+    }
+
+    public function byPost(Post $post)
+    {
+        return $post->comments;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

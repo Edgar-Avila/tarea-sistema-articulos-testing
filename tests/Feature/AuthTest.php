@@ -57,6 +57,24 @@ class AuthTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function test_user_can_see_own_profile(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $response = $this->actingAs($user)->getJson('/api/me');
+        $response->assertStatus(200);
+        $response->assertJson([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
+    }
+
+    public function test_guest_can_not_see_profile(): void
+    {
+        $response = $this->getJson('/api/me');
+        $response->assertStatus(401);
+    }
+
     public function test_user_can_not_login_with_wrong_password(): void
     {
         User::factory()->testUser()->create();
@@ -75,5 +93,11 @@ class AuthTest extends TestCase
         $response = $this->actingAs($user)->postJson('/api/logout');
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
+    }
+
+    public function test_guest_can_not_logout(): void
+    {
+        $response = $this->postJson('/api/logout');
+        $response->assertStatus(401);
     }
 }

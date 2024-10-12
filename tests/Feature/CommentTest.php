@@ -25,6 +25,52 @@ class CommentTest extends TestCase
         $response->assertJsonCount(5);
     }
 
+    public function test_user_can_see_own_comments(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $otherUser = User::factory()->create();
+        $post = Post::factory()->for($user)->create();
+        Comment::factory()->count(10)->for($user)->for($post)->create();
+        Comment::factory()->count(20)->for($otherUser)->for($post)->create();
+
+        $response = $this->actingAs($user)->getJson("/api/comments/my-comments");
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(10);
+    }
+
+    public function test_guest_can_not_see_own_comments(): void
+    {
+        $response = $this->getJson("/api/comments/my-comments");
+
+        $response->assertStatus(401);
+    }
+
+    public function test_user_can_see_post_comments(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $post = Post::factory()->for($user)->create();
+        $otherPost = Post::factory()->for($user)->create();
+        Comment::factory()->count(10)->for($user)->for($post)->create();
+        Comment::factory()->count(20)->for($user)->for($otherPost)->create();
+
+        $response = $this->actingAs($user)->getJson("/api/comments/by-post/{$post->id}");
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(10);
+    }
+
+    public function test_guest_can_not_see_post_comments(): void
+    {
+        $user = User::factory()->testUser()->create();
+        $post = Post::factory()->for($user)->create();
+        Comment::factory()->count(10)->for($user)->for($post)->create();
+
+        $response = $this->getJson("/api/comments/by-post/{$post->id}");
+
+        $response->assertStatus(401);
+    }
+
     public function test_guest_can_not_see_comments(): void
     {
         $response = $this->getJson("/api/comments");

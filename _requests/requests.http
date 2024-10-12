@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8000
-@token = 2|em0QEsRzPrQR7ypPMbJesBkwqw5b4SfJ27Yd0C1W34d0f15b
+@token = 3|9ZT3Ql0wnadzUkdX6ySGNyg3z6S3d1RpyKsVY9h83e5e21fc
 
 ### Register
 POST {{baseUrl}}/api/register
@@ -22,6 +22,12 @@ Accept: application/json
     "password": "password"
 }
 
+### Me
+GET {{baseUrl}}/api/me
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
 ### Logout
 POST {{baseUrl}}/api/logout
 Content-Type: application/json
@@ -30,6 +36,12 @@ Authorization: Bearer {{token}}
 
 ### View Posts
 GET {{baseUrl}}/api/posts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### View My Posts
+GET {{baseUrl}}/api/posts/my-posts
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
@@ -93,6 +105,18 @@ Authorization: Bearer {{token}}
 
 ### View Comments
 GET {{baseUrl}}/api/comments
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### View My Comments
+GET {{baseUrl}}/api/comments/my-comments
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### View Post Comments
+GET {{baseUrl}}/api/comments/by-post/1
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
