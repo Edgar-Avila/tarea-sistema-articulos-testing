@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8000
-@token = 1|E0mAXIDysrKOYV3B7bXFAX4eyudFsNZxcBTqOae161555fe1
+@token = 2|em0QEsRzPrQR7ypPMbJesBkwqw5b4SfJ27Yd0C1W34d0f15b
 
 ### Register
 POST {{baseUrl}}/api/register
@@ -9,7 +9,7 @@ Accept: application/json
 {
     "name": "Test User",
     "email": "test@example.com",
-    "password": "asdfasdf"
+    "password": "password"
 }
 
 ### Login
@@ -19,8 +19,14 @@ Accept: application/json
 
 {
     "email": "test@example.com",
-    "password": "asdfasdf"
+    "password": "password"
 }
+
+### Logout
+POST {{baseUrl}}/api/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
 
 ### View Posts
 GET {{baseUrl}}/api/posts

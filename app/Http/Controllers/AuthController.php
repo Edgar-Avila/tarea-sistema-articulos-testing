@@ -23,9 +23,12 @@ class AuthController extends Controller
     {
         $data = $request->validated();
         $user = User::where('email', $data['email'])->first();
+        if(!$user) {
+            return response()->json(['success' => false], 401);
+        }
         $passwordOk = Hash::check($data['password'], $user->password);
-        if(!$user || !$passwordOk) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if(!$passwordOk) {
+            return response()->json(['success' => false], 401);
         }
         $token = $user->createToken($data['email'])->plainTextToken;
 
@@ -37,7 +40,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out'], 200);
+        $request->user()->tokens()->delete();
+        return response()->json(['success' => true], 200);
     }
 }
